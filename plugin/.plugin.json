@@ -1,0 +1,39 @@
+{
+	"$schema": "https://orgsdk.ai/schemas/plugin-manifest.v1.json",
+	"name": "facebook",
+	"version": "1.0.2",
+	"description": "Facebook page management: posting, scheduling, insights, and engagement metrics",
+	"entry": "index.ts",
+	"auth": {
+		"type": "oauth2",
+		"provider": "facebook-oauth",
+		"label": "Facebook (Pages) OAuth",
+		"hint": "Create a Facebook OAuth app at developers.facebook.com; connect via the Credentials flow. Scopes cover page list, read, and post/engagement management.",
+		"scopes": [
+			"pages_show_list",
+			"pages_read_engagement",
+			"pages_read_user_content",
+			"pages_manage_posts",
+			"pages_manage_engagement"
+		],
+		"callbackPath": "/callback"
+	},
+	"marketplace": {
+		"displayName": "Facebook",
+		"category": "Social",
+		"tagline": "Manage Facebook Pages from agent workflows — posting, scheduling, insights, and engagement metrics.",
+		"tags": ["social", "posting", "analytics"],
+		"useCases": [
+			"Schedule page posts with link attachments",
+			"Report on post insights and reach",
+			"List and manage pages you admin",
+			"Track engagement across recent posts"
+		],
+		"permissionsSummary": "Post, delete, and read insights for Facebook Pages via OAuth. Posting and deleting are public, mutating actions; deletes are irreversible.",
+		"links": {
+			"homepage": "https://www.facebook.com",
+			"docs": "https://developers.facebook.com/docs/pages",
+			"sourceRepo": "https://github.com/OrgSDK/orgsdk-plugin-facebook"
+		}
+	}
+}
