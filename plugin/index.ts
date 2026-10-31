@@ -3,8 +3,9 @@ import type {
 	PluginFactory,
 	PluginModule,
 } from "@orgsdk/plugins";
+import { z } from "zod";
 import { FacebookAuthProvider } from "./auth-provider";
-import { safeFunctions } from "./facebook-functions";
+import { createSafeFunctions } from "./facebook-functions";
 
 // Facebook permissions for page management
 const DEFAULT_SCOPES = [
@@ -18,7 +19,21 @@ const DEFAULT_SCOPES = [
 const createPlugin: PluginFactory = (ctx: PluginContext): PluginModule => {
 	const authProvider = new FacebookAuthProvider(ctx, DEFAULT_SCOPES);
 	return {
-		safeFunctions,
+		safeFunctions: createSafeFunctions(ctx.stores.config),
+		config: {
+			title: "Facebook Page",
+			description:
+				"Choose a page the connected user can manage. Page tokens are resolved during execution.",
+			schema: z.strictObject({
+				pageId: z
+					.string()
+					.regex(/^[a-zA-Z0-9_-]{1,100}$/)
+					.optional()
+					.describe(
+						"Facebook page ID. Required for page operations; getPages lists accessible pages.",
+					),
+			}),
+		},
 		httpEndpoints: authProvider.getHttpEndpoints(),
 		authProvider,
 		async onLoad() {

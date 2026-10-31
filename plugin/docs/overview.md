@@ -1,3 +1,13 @@
+# Current execution contract
+
+Set plugin configuration `{ "pageId": "YOUR_PAGE_ID" }`. The plugin resolves a page access token from the host-supplied user token, checks the returned page ID, and uses bearer headers. Do not store a page token or page ID in the OAuth snapshot.
+
+Native OAuth providers receive only `{source: "byo", secret_accessToken}`. The host owns refresh. The first-party relay is retired.
+
+## Historical source reference
+
+The following describes the former author-source host; current npm and native credential behaviour above takes precedence.
+
 # Facebook
 
 Post to and read from Facebook Pages — publishing, scheduling, and engagement

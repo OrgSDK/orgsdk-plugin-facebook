@@ -63,7 +63,7 @@ describe("packaging", () => {
 		expect(paths).toEqual(sorted);
 	});
 
-	it("generated package.json in artifact carries NO runtime deps and no authoring SDK", async () => {
+	it("generated package.json in artifact carries the configuration validator and no authoring SDK", async () => {
 		const slug = await readManifestSlug();
 		await $`bun run package`.cwd(ROOT).quiet();
 		const pkgPath = join(DIST_DIR, slug, "package.json");
@@ -73,10 +73,10 @@ describe("packaging", () => {
 		>;
 
 		expect(pkg.name).toBe("@orgsdk/plugin-facebook");
-		expect(pkg.version).toBe("1.0.2");
+		expect(pkg.version).toBe("1.0.3");
 		expect(pkg.type).toBe("module");
-		// Facebook has no runtime dependencies (globals only).
-		expect(pkg.dependencies).toBeUndefined();
+		// Configuration uses the declared, bundled Zod validator.
+		expect(pkg.dependencies).toEqual({ zod: "4.6.7" });
 		// The authoring SDK must NOT be a runtime dependency.
 		expect(pkg["@orgsdk/plugins"]).toBeUndefined();
 		expect(pkg.devDependencies).toBeUndefined();
